@@ -1,0 +1,61 @@
+# Go Developer Project: "GoTask Manager"
+
+Overview:
+A command-line based task manager where users can add, view, update, delete tasks, and communicate with other users in real-time.
+
+Features:
+
+Basic Task Operations
+
+Add, view, update, and delete tasks.
+Each task has a name, description, status (e.g., "Pending", "In Progress", "Completed"), and an assigned user.
+User Management
+
+Register, login, and manage user profiles.
+Real-time Communication
+
+Chat with other users in real-time.
+Get real-time notifications when a task assigned to you is modified.
+Technical Specification:
+
+Basic Syntax & Data Types
+
+Use of Go's syntax, variables, data types like bool, int, byte, float32, etc.
+Functions & Multiple/named Returns
+
+Modularize code with functions.
+Use multiple and named returns where appropriate.
+Conditionals
+
+Implement if and switch statements for decision making.
+Going Deeper
+
+Data Structures: Use structs to model a task, user, and chat message. Implement arrays, slices, and maps where required.
+Concurrency: Use goroutines and channels for real-time communication.
+Error Handling: Implement error handling, panic, and recover scenarios.
+Packages & Go Modules
+
+Structure the project with multiple packages and manage dependencies using Go modules.
+Building Command-line Interfaces (CLIs)
+
+Use Cobra or urfave/cli for CLI creation.
+Marshalling & Unmarshalling
+
+Parse input and display data using JSON marshalling and unmarshalling.
+Web Framework & Communication
+
+Use Gin or Echo for building RESTful APIs for user and task management.
+Implement real-time communication with Melody or Centrifugo.
+ORM & Database
+
+Use GORM to manage database operations with tasks and users.
+Ensure type casting and type inference are applied appropriately.
+Logging
+
+Integrate Zap or Logrus for logging operations, errors, and information.
+API Clients
+
+Create API clients using Heimdall or GRequests.
+Testing
+
+Write unit tests and integration tests for various components of the project.
