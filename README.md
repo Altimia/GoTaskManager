@@ -1,3 +1,5 @@
+# Task Manager written in Go
+
 Overview:
 A command-line based task manager where users can add, view, update, delete tasks, and communicate with other users in real-time.
 
