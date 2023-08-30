@@ -1,20 +1,32 @@
 package main
 
+import (
+	"github.com/jinzhu/gorm"
+)
+
 type User struct {
-	ID       int
+	gorm.Model
 	Username string
 	Password string
 	Profile  string
 }
 
-func Register() {
-	// code for user registration
+func Register(user User) {
+	db.Create(&user)
+	fmt.Println("User registered successfully")
 }
 
-func Login() {
-	// code for user login
+func Login(username string, password string) bool {
+	var user User
+	if err := db.Where("username = ? AND password = ?", username, password).First(&user).Error; err != nil {
+		return false
+	}
+	return true
 }
 
-func ManageProfile() {
-	// code for managing user profile
+func ManageProfile(id int, updatedUser User) {
+	var user User
+	db.First(&user, id)
+	db.Model(&user).Updates(updatedUser)
+	fmt.Println("Profile updated successfully")
 }
