@@ -7,10 +7,19 @@ type Chat struct {
 	To      User
 }
 
-func SendMessage() {
+func NewChat(id int, message string, from User, to User) *Chat {
+	return &Chat{
+		ID:      id,
+		Message: message,
+		From:    from,
+		To:      to,
+	}
+}
+
+func (c *Chat) SendMessage() {
 	// code for sending a message
 }
 
-func ReceiveMessage() {
+func (c *Chat) ReceiveMessage() {
 	// code for receiving a message
 }
