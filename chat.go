@@ -21,5 +21,5 @@ func (c *Chat) SendMessage() {
 }
 
 func (c *Chat) ReceiveMessage() {
-	// code for receiving a message
+	fmt.Printf("%s received a message: %s\n", c.To.Name, c.Message)
 }
