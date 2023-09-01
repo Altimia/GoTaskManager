@@ -17,7 +17,7 @@ func NewChat(id int, message string, from User, to User) *Chat {
 }
 
 func (c *Chat) SendMessage() {
-	// code for sending a message
+	fmt.Printf("%s sent a message: %s\n", c.From.Name, c.Message)
 }
 
 func (c *Chat) ReceiveMessage() {
