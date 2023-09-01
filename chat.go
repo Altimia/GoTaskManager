@@ -1,5 +1,9 @@
 package main
 
+import (
+	"fmt"
+)
+
 type Chat struct {
 	ID      int
 	Message string
