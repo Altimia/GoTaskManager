@@ -33,7 +33,8 @@ var addTaskCmd = &cobra.Command{
 	Long:  `Add a new task to the task list.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for adding a task
-		// This will be implemented in the next steps
+		task := Task{Name: args[0], Description: args[1], Status: args[2], AssignedTo: args[3]}
+		AddTask(task)
 	},
 }
 
@@ -43,7 +44,9 @@ var viewTaskCmd = &cobra.Command{
 	Long:  `View the details of a task.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for viewing a task
-		// This will be implemented in the next steps
+		id, _ := strconv.Atoi(args[0])
+		task := ViewTask(id)
+		fmt.Println(task)
 	},
 }
 
@@ -53,7 +56,9 @@ var updateTaskCmd = &cobra.Command{
 	Long:  `Update the details of a task.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for updating a task
-		// This will be implemented in the next steps
+		id, _ := strconv.Atoi(args[0])
+		task := Task{Name: args[1], Description: args[2], Status: args[3], AssignedTo: args[4]}
+		UpdateTask(id, task)
 	},
 }
 
@@ -63,7 +68,8 @@ var deleteTaskCmd = &cobra.Command{
 	Long:  `Delete a task from the task list.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for deleting a task
-		// This will be implemented in the next steps
+		id, _ := strconv.Atoi(args[0])
+		DeleteTask(id)
 	},
 }
 
