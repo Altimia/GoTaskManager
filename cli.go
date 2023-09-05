@@ -21,16 +21,31 @@ var taskCmd = &cobra.Command{
 	Use:   "task",
 	Short: "Manage tasks",
 	Long:  `Add, view, update, and delete tasks.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		// code for running the task command
+	},
 }
+
+taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
 
 var userCmd = &cobra.Command{
 	Use:   "user",
 	Short: "Manage users",
 	Long:  `Register, login, and manage user profiles.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		// code for running the user command
+	},
 }
+
+userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
 
 var chatCmd = &cobra.Command{
 	Use:   "chat",
 	Short: "Chat with users",
 	Long:  `Send and receive chat messages.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		// code for running the chat command
+	},
 }
+
+chatCmd.AddCommand(sendMessageCmd, receiveMessageCmd)
