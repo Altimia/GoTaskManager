@@ -85,10 +85,7 @@ var deleteTaskCmd = &cobra.Command{
 	},
 }
 
-func main() {
-	taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
-	Execute()
-}
+// Removed duplicate main function
 
 var userCmd = &cobra.Command{
 	Use:   "user",
@@ -145,11 +142,7 @@ var manageProfileCmd = &cobra.Command{
 	},
 }
 
-func main() {
-	taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
-	userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
-	Execute()
-}
+// Removed duplicate main function
 
 var chatCmd = &cobra.Command{
 	Use:   "chat",
@@ -189,12 +182,5 @@ var receiveMessageCmd = &cobra.Command{
 	},
 }
 
-func main() {
-	taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
-	userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
-	chatCmd.AddCommand(sendMessageCmd, receiveMessageCmd)
-	Execute()
-}
-func main() {
-	Execute()
-}
+// Removed duplicate main function
+// Removed duplicate main function
