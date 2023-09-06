@@ -12,8 +12,8 @@ func TestAddTask(t *testing.T) {
 		Description: "This is a test task",
 		Status:      "In Progress",
 		AssignedTo: User{
-			Username:  "John Doe",
-			Password: "johndoe@example.com",
+			Username: "John Doe",
+			Password: "password123",
 		},
 	}
 
@@ -29,8 +29,8 @@ func TestViewTask(t *testing.T) {
 		Description: "This is a test task",
 		Status:      "In Progress",
 		AssignedTo: User{
-			Name:  "John Doe",
-			Email: "johndoe@example.com",
+			Username: "John Doe",
+			Password: "password123",
 		},
 	}
 
@@ -51,8 +51,8 @@ func TestUpdateTask(t *testing.T) {
 		Description: "This is a test task",
 		Status:      "In Progress",
 		AssignedTo: User{
-			Name:  "John Doe",
-			Email: "johndoe@example.com",
+			Username: "John Doe",
+			Password: "password123",
 		},
 	}
 
@@ -66,8 +66,8 @@ func TestUpdateTask(t *testing.T) {
 		Description: "This is an updated test task",
 		Status:      "Completed",
 		AssignedTo: User{
-			Name:  "Jane Doe",
-			Email: "janedoe@example.com",
+			Username: "Jane Doe",
+			Password: "wordpass13",
 		},
 	}
 
@@ -85,8 +85,8 @@ func TestDeleteTask(t *testing.T) {
 		Description: "This is a test task",
 		Status:      "In Progress",
 		AssignedTo: User{
-			Name:  "John Doe",
-			Email: "johndoe@example.com",
+			Username: "John Doe",
+			Password: "password123",
 		},
 	}
 
