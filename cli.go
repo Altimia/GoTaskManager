@@ -133,7 +133,11 @@ var sendMessageCmd = &cobra.Command{
 	Long:  `Send a chat message to a user.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for sending a chat message
-		// This will be implemented in the next steps
+		from := User{Username: args[0]}
+		to := User{Username: args[1]}
+		message := args[2]
+		chat := NewChat(0, message, from, to)
+		chat.SendMessage()
 	},
 }
 
@@ -143,7 +147,11 @@ var receiveMessageCmd = &cobra.Command{
 	Long:  `Receive a chat message from a user.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for receiving a chat message
-		// This will be implemented in the next steps
+		from := User{Username: args[0]}
+		to := User{Username: args[1]}
+		message := args[2]
+		chat := NewChat(0, message, from, to)
+		chat.ReceiveMessage()
 	},
 }
 
