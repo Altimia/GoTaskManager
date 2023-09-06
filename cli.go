@@ -33,8 +33,17 @@ var addTaskCmd = &cobra.Command{
 	Long:  `Add a new task to the task list.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for adding a task
+		if len(args) != 4 {
+			fmt.Println("Invalid number of arguments. Expected 4 arguments: name, description, status, assignedTo.")
+			return
+		}
 		task := Task{Name: args[0], Description: args[1], Status: args[2], AssignedTo: args[3]}
-		AddTask(task)
+		err := AddTask(task)
+		if err != nil {
+			fmt.Println("Failed to add task:", err)
+			return
+		}
+		fmt.Println("Task added successfully")
 	},
 }
 
