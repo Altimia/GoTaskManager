@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/spf13/cobra"
 )
 
@@ -83,8 +86,8 @@ var deleteTaskCmd = &cobra.Command{
 }
 
 func main() {
-    taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
-    Execute()
+	taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
+	Execute()
 }
 
 var userCmd = &cobra.Command{
@@ -143,9 +146,9 @@ var manageProfileCmd = &cobra.Command{
 }
 
 func main() {
-    taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
-    userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
-    Execute()
+	taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
+	userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
+	Execute()
 }
 
 var chatCmd = &cobra.Command{
@@ -187,10 +190,10 @@ var receiveMessageCmd = &cobra.Command{
 }
 
 func main() {
-    taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
-    userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
-    chatCmd.AddCommand(sendMessageCmd, receiveMessageCmd)
-    Execute()
+	taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
+	userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
+	chatCmd.AddCommand(sendMessageCmd, receiveMessageCmd)
+	Execute()
 }
 func main() {
 	Execute()
