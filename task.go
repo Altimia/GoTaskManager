@@ -13,9 +13,12 @@ type Task struct {
 	AssignedTo  User
 }
 
-func AddTask(task Task) {
-	db.Create(&task)
+func AddTask(task Task) error {
+	if err := db.Create(&task).Error; err != nil {
+		return err
+	}
 	fmt.Println("Task added successfully")
+	return nil
 }
 
 func ViewTask(id int) Task {

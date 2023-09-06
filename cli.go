@@ -46,8 +46,7 @@ var addTaskCmd = &cobra.Command{
 			return
 		}
 		task := Task{Name: args[0], Description: args[1], Status: args[2], AssignedTo: user}
-		err := AddTask(task)
-		if err != nil {
+		if err := AddTask(task); err != nil {
 			fmt.Println("Failed to add task:", err)
 			return
 		}
