@@ -171,3 +171,6 @@ var receiveMessageCmd = &cobra.Command{
 }
 
 chatCmd.AddCommand(sendMessageCmd, receiveMessageCmd)
+func main() {
+	Execute()
+}
