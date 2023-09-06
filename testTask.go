@@ -12,8 +12,8 @@ func TestAddTask(t *testing.T) {
 		Description: "This is a test task",
 		Status:      "In Progress",
 		AssignedTo: User{
-			Name:  "John Doe",
-			Email: "johndoe@example.com",
+			Username:  "John Doe",
+			Password: "johndoe@example.com",
 		},
 	}
 
