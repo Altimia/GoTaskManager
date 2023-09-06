@@ -40,7 +40,12 @@ var addTaskCmd = &cobra.Command{
 			fmt.Println("Invalid number of arguments. Expected 4 arguments: name, description, status, assignedTo.")
 			return
 		}
-		task := Task{Name: args[0], Description: args[1], Status: args[2], AssignedTo: args[3]}
+		var user User
+		if err := db.Where("username = ?", args[3]).First(&user).Error; err != nil {
+			fmt.Println("User not found:", args[3])
+			return
+		}
+		task := Task{Name: args[0], Description: args[1], Status: args[2], AssignedTo: user}
 		err := AddTask(task)
 		if err != nil {
 			fmt.Println("Failed to add task:", err)
