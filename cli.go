@@ -85,8 +85,6 @@ var deleteTaskCmd = &cobra.Command{
 	},
 }
 
-// Removed duplicate main function
-
 var userCmd = &cobra.Command{
 	Use:   "user",
 	Short: "Manage users",
@@ -142,8 +140,6 @@ var manageProfileCmd = &cobra.Command{
 	},
 }
 
-// Removed duplicate main function
-
 var chatCmd = &cobra.Command{
 	Use:   "chat",
 	Short: "Chat with users",
@@ -182,5 +178,9 @@ var receiveMessageCmd = &cobra.Command{
 	},
 }
 
-// Removed duplicate main function
-// Removed duplicate main function
+func main() {
+	taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
+	userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
+	chatCmd.AddCommand(sendMessageCmd, receiveMessageCmd)
+	Execute()
+}
