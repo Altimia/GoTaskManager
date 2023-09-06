@@ -73,7 +73,12 @@ var updateTaskCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for updating a task
 		id, _ := strconv.Atoi(args[0])
-		task := Task{Name: args[1], Description: args[2], Status: args[3], AssignedTo: args[4]}
+		var user User
+		if err := db.Where("username = ?", args[4]).First(&user).Error; err != nil {
+			fmt.Println("User not found:", args[4])
+			return
+		}
+		task := Task{Name: args[1], Description: args[2], Status: args[3], AssignedTo: user}
 		UpdateTask(id, task)
 	},
 }
