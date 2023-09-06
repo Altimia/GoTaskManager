@@ -91,7 +91,11 @@ var registerCmd = &cobra.Command{
 	Long:  `Register a new user.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for registering a user
-		// This will be implemented in the next steps
+		username := args[0]
+		password := args[1]
+		profile := args[2]
+		user := User{Username: username, Password: password, Profile: profile}
+		user.Register()
 	},
 }
 
@@ -101,7 +105,13 @@ var loginCmd = &cobra.Command{
 	Long:  `Login a user.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for logging in a user
-		// This will be implemented in the next steps
+		username := args[0]
+		password := args[1]
+		if Login(username, password) {
+			fmt.Println("Logged in successfully")
+		} else {
+			fmt.Println("Failed to log in")
+		}
 	},
 }
 
@@ -111,7 +121,12 @@ var manageProfileCmd = &cobra.Command{
 	Long:  `Manage the profile of a user.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for managing a user profile
-		// This will be implemented in the next steps
+		id, _ := strconv.Atoi(args[0])
+		username := args[1]
+		password := args[2]
+		profile := args[3]
+		updatedUser := User{Username: username, Password: password, Profile: profile}
+		ManageProfile(id, updatedUser)
 	},
 }
 
