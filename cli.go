@@ -142,7 +142,11 @@ var manageProfileCmd = &cobra.Command{
 	},
 }
 
-userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
+func main() {
+    taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
+    userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
+    Execute()
+}
 
 var chatCmd = &cobra.Command{
 	Use:   "chat",
@@ -182,7 +186,12 @@ var receiveMessageCmd = &cobra.Command{
 	},
 }
 
-chatCmd.AddCommand(sendMessageCmd, receiveMessageCmd)
+func main() {
+    taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
+    userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
+    chatCmd.AddCommand(sendMessageCmd, receiveMessageCmd)
+    Execute()
+}
 func main() {
 	Execute()
 }
