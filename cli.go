@@ -82,7 +82,10 @@ var deleteTaskCmd = &cobra.Command{
 	},
 }
 
-taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
+func main() {
+    taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
+    Execute()
+}
 
 var userCmd = &cobra.Command{
 	Use:   "user",
