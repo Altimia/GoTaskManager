@@ -114,7 +114,7 @@ var registerCmd = &cobra.Command{
 		password := args[1]
 		profile := args[2]
 		user := User{Username: username, Password: password, Profile: profile}
-		user.Register()
+		Register(user)
 	},
 }
 
