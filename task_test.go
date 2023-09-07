@@ -109,12 +109,9 @@ func TestDeleteTask(t *testing.T) {
 
 	DeleteTask(1)
 
-	viewedTask, err := ViewTask(1)
-	if err != nil {
-		t.Errorf("Error viewing task: %v", err)
-	}
-	if viewedTask.ID != 0 {
-		t.Errorf("Expected task to be deleted, but it still exists with ID %v", viewedTask.ID)
+	_, err = ViewTask(1)
+	if err == nil {
+		t.Errorf("Expected error when viewing deleted task, but got no error")
 	}
 }
 
