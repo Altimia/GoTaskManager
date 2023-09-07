@@ -35,7 +35,7 @@ func TestAddTaskWithInvalidUser(t *testing.T) {
 }
 
 // Add more tests here...
-func TestViewTask(t *testing.T) {
+func TestViewTask2(t *testing.T) {
 	db, mock, _ := sqlmock.New()
 	defer db.Close()
 
@@ -54,7 +54,7 @@ func TestViewTask(t *testing.T) {
 	assert.Equal(t, "John Doe", task.AssignedTo.Username)
 }
 
-func TestUpdateTask(t *testing.T) {
+func TestUpdateTask2(t *testing.T) {
 	db, mock, _ := sqlmock.New()
 	defer db.Close()
 
@@ -85,7 +85,7 @@ func TestUpdateTask(t *testing.T) {
 	assert.Equal(t, "Jane Doe", task.AssignedTo.Username)
 }
 
-func TestDeleteTask(t *testing.T) {
+func TestDeleteTask2(t *testing.T) {
 	db, mock, _ := sqlmock.New()
 	defer db.Close()
 
