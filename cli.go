@@ -61,7 +61,11 @@ var viewTaskCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for viewing a task
 		id, _ := strconv.Atoi(args[0])
-		task := ViewTask(id)
+		task, err := ViewTask(id)
+		if err != nil {
+			fmt.Println("Failed to view task:", err)
+			return
+		}
 		fmt.Println(task)
 	},
 }

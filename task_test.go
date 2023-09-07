@@ -46,6 +46,9 @@ func TestViewTask(t *testing.T) {
 	}
 
 	viewedTask := ViewTask(1)
+	if err != nil {
+		t.Errorf("Error viewing task: %v", err)
+	}
 	if viewedTask.Name != "Test Task" {
 		t.Errorf("Expected task name to be 'Test Task', but got '%v'", viewedTask.Name)
 	}
@@ -80,6 +83,9 @@ func TestUpdateTask(t *testing.T) {
 	UpdateTask(1, updatedTask)
 
 	viewedTask := ViewTask(1)
+	if err != nil {
+		t.Errorf("Error viewing task: %v", err)
+	}
 	if viewedTask.Name != "Updated Test Task" {
 		t.Errorf("Expected task name to be 'Updated Test Task', but got '%v'", viewedTask.Name)
 	}
@@ -104,6 +110,9 @@ func TestDeleteTask(t *testing.T) {
 	DeleteTask(1)
 
 	viewedTask := ViewTask(1)
+	if err != nil {
+		t.Errorf("Error viewing task: %v", err)
+	}
 	if viewedTask.ID != 0 {
 		t.Errorf("Expected task to be deleted, but it still exists with ID %v", viewedTask.ID)
 	}
