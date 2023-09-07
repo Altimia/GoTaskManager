@@ -9,7 +9,7 @@ import (
 )
 
 func TestAddTaskWithInvalidUser(t *testing.T) {
-	db, mock, _ := sqlmock.New()
+	db, mock, _ := sqlmock.NewWithExpectations()
 	defer db.Close()
 
 	gormDB, _ := gorm.Open("sqlite3", db)
@@ -28,7 +28,7 @@ func TestAddTaskWithInvalidUser(t *testing.T) {
 		},
 	}
 
-	err := db.Create(&task).Error
+	err := gormDB.Create(&task).Error
 
 	// Check that the error is what we expected
 	assert.Equal(t, gorm.ErrRecordNotFound, err)
@@ -36,7 +36,7 @@ func TestAddTaskWithInvalidUser(t *testing.T) {
 
 // Add more tests here...
 func TestViewTask2(t *testing.T) {
-	db, mock, _ := sqlmock.New()
+	db, mock, _ := sqlmock.NewWithExpectations()
 	defer db.Close()
 
 	gormDB, _ := gorm.Open("sqlite3", db)
@@ -45,7 +45,7 @@ func TestViewTask2(t *testing.T) {
 	mock.ExpectBegin()
 	mock.ExpectQuery("^SELECT (.+) FROM \"tasks\" WHERE \"tasks\".\"id\" = ? ORDER BY \"tasks\".\"id\" ASC LIMIT 1$").WillReturnRows(sqlmock.NewRows([]string{"id", "name", "description", "status", "assigned_to"}).AddRow(1, "Test Task", "This is a test task", "In Progress", "John Doe"))
 
-	task := db.ViewTask(1)
+	task := gormDB.ViewTask(1)
 
 	// Check that the task is what we expected
 	assert.Equal(t, "Test Task", task.Name)
@@ -55,14 +55,14 @@ func TestViewTask2(t *testing.T) {
 }
 
 func TestUpdateTask2(t *testing.T) {
-	db, mock, _ := sqlmock.New()
+	db, mock, _ := sqlmock.NewWithExpectations()
 	defer db.Close()
 
 	gormDB, _ := gorm.Open("sqlite3", db)
 
 	// Mock the query
 	mock.ExpectBegin()
-	mock.ExpectQuery("^UPDATE \"tasks\" SET \"name\" = ?, \"description\" = ?, \"status\" = ?, \"assigned_to\" = ? WHERE \"tasks\".\"id\" = ?$").WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectQuery("^UPDATE \"tasks\" SET \"name\" = ?, \"description\" = ?, \"status\" = ?, \"assigned_to\" = ? WHERE \"tasks\".\"id\" = ?$").WillReturnRows(sqlmock.NewRows([]string{"id", "name", "description", "status", "assigned_to"}).AddRow(1, "Updated Test Task", "This is an updated test task", "Completed", "Jane Doe"))
 
 	updatedTask := Task{
 		Name:        "Updated Test Task",
@@ -74,7 +74,7 @@ func TestUpdateTask2(t *testing.T) {
 		},
 	}
 
-	db.UpdateTask(1, updatedTask)
+	gormDB.UpdateTask(1, updatedTask)
 
 	task := ViewTask(1)
 
@@ -86,7 +86,7 @@ func TestUpdateTask2(t *testing.T) {
 }
 
 func TestDeleteTask2(t *testing.T) {
-	db, mock, _ := sqlmock.New()
+	db, mock, _ := sqlmock.NewWithExpectations()
 	defer db.Close()
 
 	gormDB, _ := gorm.Open("sqlite3", db)
@@ -95,7 +95,7 @@ func TestDeleteTask2(t *testing.T) {
 	mock.ExpectBegin()
 	mock.ExpectExec("^DELETE FROM \"tasks\" WHERE \"tasks\".\"id\" = ?$").WillReturnResult(sqlmock.NewResult(1, 1))
 
-	db.DeleteTask(1)
+	gormDB.DeleteTask(1)
 
 	task := ViewTask(1)
 
