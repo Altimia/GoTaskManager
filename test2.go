@@ -43,7 +43,11 @@ func TestViewTask2(t *testing.T) {
 	mock.ExpectBegin()
 	mock.ExpectQuery("^SELECT (.+) FROM \"tasks\" WHERE \"tasks\".\"id\" = ? ORDER BY \"tasks\".\"id\" ASC LIMIT 1$").WillReturnRows(sqlmock.NewRows([]string{"id", "name", "description", "status", "assigned_to"}).AddRow(1, "Test Task", "This is a test task", "In Progress", "John Doe"))
 
-	task := ViewTask(1)
+	task, err := ViewTask(1)
+	if err != nil {
+		t.Errorf("Error viewing task: %v", err)
+		return
+	}
 
 	// Check that the task is what we expected
 	assert.Equal(t, "Test Task", task.Name)
@@ -72,7 +76,11 @@ func TestUpdateTask2(t *testing.T) {
 
 	UpdateTask(1, updatedTask)
 
-	task := ViewTask(1)
+	task, err := ViewTask(1)
+	if err != nil {
+		t.Errorf("Error viewing task: %v", err)
+		return
+	}
 
 	// Check that the task was updated correctly
 	assert.Equal(t, "Updated Test Task", task.Name)
@@ -91,7 +99,11 @@ func TestDeleteTask2(t *testing.T) {
 
 	DeleteTask(1)
 
-	task := ViewTask(1)
+	task, err := ViewTask(1)
+	if err != nil {
+		t.Errorf("Error viewing task: %v", err)
+		return
+	}
 
 	// Check that the task was deleted correctly
 	assert.Equal(t, 0, task.ID)
