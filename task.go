@@ -21,17 +21,24 @@ func AddTask(task Task) error {
 	return nil
 }
 
-func ViewTask(id int) Task {
+func ViewTask(id int) (Task, error) {
 	var task Task
-	db.First(&task, id)
-	return task
+	if err := db.First(&task, id).Error; err != nil {
+		return Task{}, err
+	}
+	return task, nil
 }
 
-func UpdateTask(id int, updatedTask Task) {
+func UpdateTask(id int, updatedTask Task) error {
 	var task Task
-	db.First(&task, id)
-	db.Model(&task).Updates(updatedTask)
+	if err := db.First(&task, id).Error; err != nil {
+		return err
+	}
+	if err := db.Model(&task).Updates(updatedTask).Error; err != nil {
+		return err
+	}
 	fmt.Println("Task updated successfully")
+	return nil
 }
 
 func DeleteTask(id int) {
