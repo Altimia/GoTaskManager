@@ -36,7 +36,7 @@ func TestAddTaskWithInvalidUser(t *testing.T) {
 
 // Add more tests here...
 func TestViewTask2(t *testing.T) {
-	db, mock, _ := sqlmock.NewWithExpectations()
+	db, mock, _ := sqlmock.New()
 	defer db.Close()
 
 	gormDB, _ := gorm.Open("sqlite3", db)
@@ -55,7 +55,7 @@ func TestViewTask2(t *testing.T) {
 }
 
 func TestUpdateTask2(t *testing.T) {
-	db, mock, _ := sqlmock.NewWithExpectations()
+	db, mock, _ := sqlmock.New()
 	defer db.Close()
 
 	gormDB, _ := gorm.Open("sqlite3", db)
@@ -86,7 +86,7 @@ func TestUpdateTask2(t *testing.T) {
 }
 
 func TestDeleteTask2(t *testing.T) {
-	db, mock, _ := sqlmock.NewWithExpectations()
+	db, mock, _ := sqlmock.New()
 	defer db.Close()
 
 	gormDB, _ := gorm.Open("sqlite3", db)
