@@ -1,10 +1,16 @@
-// BEGIN: 8f7e6d5b3a4c
-
 package main
 
 import (
+	"os"
 	"testing"
 )
+
+func TestMain(m *testing.M) {
+	InitDB()
+	code := m.Run()
+	CloseDB()
+	os.Exit(code)
+}
 
 func TestAddTask(t *testing.T) {
 	task := Task{
