@@ -12,7 +12,7 @@ func TestAddTaskWithInvalidUser(t *testing.T) {
 	db, mock, _ := sqlmock.New()
 	defer db.Close()
 
-	gormDB, _ := gorm.Open("sqlite3", db)
+	_, _ = gorm.Open("sqlite3", db)
 
 	// Mock the query
 	mock.ExpectBegin()
