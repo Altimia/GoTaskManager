@@ -39,8 +39,6 @@ func TestViewTask2(t *testing.T) {
 	db, mock, _ := sqlmock.New()
 	defer db.Close()
 
-	gormDB, _ := gorm.Open("sqlite3", db)
-
 	// Mock the query
 	mock.ExpectBegin()
 	mock.ExpectQuery("^SELECT (.+) FROM \"tasks\" WHERE \"tasks\".\"id\" = ? ORDER BY \"tasks\".\"id\" ASC LIMIT 1$").WillReturnRows(sqlmock.NewRows([]string{"id", "name", "description", "status", "assigned_to"}).AddRow(1, "Test Task", "This is a test task", "In Progress", "John Doe"))
@@ -57,8 +55,6 @@ func TestViewTask2(t *testing.T) {
 func TestUpdateTask2(t *testing.T) {
 	db, mock, _ := sqlmock.New()
 	defer db.Close()
-
-	gormDB, _ := gorm.Open("sqlite3", db)
 
 	// Mock the query
 	mock.ExpectBegin()
@@ -88,8 +84,6 @@ func TestUpdateTask2(t *testing.T) {
 func TestDeleteTask2(t *testing.T) {
 	db, mock, _ := sqlmock.New()
 	defer db.Close()
-
-	gormDB, _ := gorm.Open("sqlite3", db)
 
 	// Mock the query
 	mock.ExpectBegin()
