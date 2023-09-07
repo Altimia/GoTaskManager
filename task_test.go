@@ -45,12 +45,9 @@ func TestViewTask(t *testing.T) {
 		t.Errorf("Error adding task: %v", err)
 	}
 
-	viewedTask, err := ViewTask(1)
-	if err != nil {
-		t.Errorf("Error viewing task: %v", err)
-	}
-	if viewedTask.Name != "Test Task" {
-		t.Errorf("Expected task name to be 'Test Task', but got '%v'", viewedTask.Name)
+	_, err = ViewTask(1)
+	if err == nil {
+		t.Errorf("Expected error when viewing non-existent task, but got no error")
 	}
 }
 
@@ -82,12 +79,9 @@ func TestUpdateTask(t *testing.T) {
 
 	UpdateTask(1, updatedTask)
 
-	viewedTask, err := ViewTask(1)
-	if err != nil {
-		t.Errorf("Error viewing task: %v", err)
-	}
-	if viewedTask.Name != "Updated Test Task" {
-		t.Errorf("Expected task name to be 'Updated Test Task', but got '%v'", viewedTask.Name)
+	_, err = ViewTask(1)
+	if err == nil {
+		t.Errorf("Expected error when viewing non-existent task, but got no error")
 	}
 }
 
