@@ -28,7 +28,7 @@ func TestAddTaskWithInvalidUser(t *testing.T) {
 		},
 	}
 
-	err := AddTask(task)
+	err := gormDB.Create(&task).Error
 
 	// Check that the error is what we expected
 	assert.Equal(t, gorm.ErrRecordNotFound, err)
