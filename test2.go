@@ -9,16 +9,10 @@ import (
 )
 
 func TestAddTaskWithInvalidUser(t *testing.T) {
-	db, mock, err := sqlmock.New()
-	if err != nil {
-		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
-	}
+	db, mock, _ := sqlmock.New()
 	defer db.Close()
 
-	gormDB, err := gorm.Open("sqlite3", db)
-	if err != nil {
-		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
-	}
+	gormDB, _ := gorm.Open("sqlite3", db)
 
 	// Mock the query
 	mock.ExpectBegin()
@@ -34,7 +28,7 @@ func TestAddTaskWithInvalidUser(t *testing.T) {
 		},
 	}
 
-	err := db.Create(&task).Error
+	err := gormDB.Create(&task).Error
 
 	// Check that the error is what we expected
 	assert.Equal(t, gorm.ErrRecordNotFound, err)
