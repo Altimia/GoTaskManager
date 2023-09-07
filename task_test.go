@@ -45,7 +45,7 @@ func TestViewTask(t *testing.T) {
 		t.Errorf("Error adding task: %v", err)
 	}
 
-	viewedTask := ViewTask(1)
+	viewedTask, err := ViewTask(1)
 	if err != nil {
 		t.Errorf("Error viewing task: %v", err)
 	}
@@ -82,7 +82,7 @@ func TestUpdateTask(t *testing.T) {
 
 	UpdateTask(1, updatedTask)
 
-	viewedTask := ViewTask(1)
+	viewedTask, err := ViewTask(1)
 	if err != nil {
 		t.Errorf("Error viewing task: %v", err)
 	}
@@ -109,7 +109,7 @@ func TestDeleteTask(t *testing.T) {
 
 	DeleteTask(1)
 
-	viewedTask := ViewTask(1)
+	viewedTask, err := ViewTask(1)
 	if err != nil {
 		t.Errorf("Error viewing task: %v", err)
 	}
