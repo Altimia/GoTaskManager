@@ -16,7 +16,7 @@ func InitDB() {
 		panic("Failed to connect to database")
 	}
 
-	db.AutoMigrate(&Task{}, &User{})
+	db.AutoMigrate(&Task{}, &User{}, &Chat{})
 
 	fmt.Println("Database connected")
 }
