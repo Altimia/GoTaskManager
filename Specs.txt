@@ -28,34 +28,35 @@ Use multiple and named returns where appropriate.
 Conditionals
 
 Implement if and switch statements for decision making.
-Going Deeper
 
+Going Deeper
 Data Structures: Use structs to model a task, user, and chat message. Implement arrays, slices, and maps where required.
 Concurrency: Use goroutines and channels for real-time communication.
+
 Error Handling: Implement error handling, panic, and recover scenarios.
+
 Packages & Go Modules
-
 Structure the project with multiple packages and manage dependencies using Go modules.
+
 Building Command-line Interfaces (CLIs)
-
 Use Cobra or urfave/cli for CLI creation.
+
 Marshalling & Unmarshalling
-
 Parse input and display data using JSON marshalling and unmarshalling.
-Web Framework & Communication
 
+Web Framework & Communication
 Use Gin or Echo for building RESTful APIs for user and task management.
 Implement real-time communication with Melody or Centrifugo.
-ORM & Database
 
+ORM & Database
 Use GORM to manage database operations with tasks and users.
 Ensure type casting and type inference are applied appropriately.
+
 Logging
-
 Integrate Zap or Logrus for logging operations, errors, and information.
+
 API Clients
-
 Create API clients using Heimdall or GRequests.
-Testing
 
+Testing
 Write unit tests and integration tests for various components of the project.
