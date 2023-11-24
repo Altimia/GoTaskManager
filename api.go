@@ -9,10 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var server *http.Server
+var (
+	router *gin.Engine
+	server *http.Server
+)
 
 func InitAPI() {
-	router = gin.Default()
+	router := gin.Default()
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
