@@ -1,10 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
 	"strconv"
+	"syscall"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -47,14 +52,6 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("%s\n", msg)
 	}
 }
-
-import (
-	"os"
-	"os/signal"
-	"syscall"
-)
-
-// ...
 
 func main() {
 	// Configure websocket route
