@@ -37,6 +37,11 @@ func UpdateTask(id int, updatedTask Task) error {
 	if err := db.Model(&task).Updates(updatedTask).Error; err != nil {
 		return err
 	}
+	// Send notification to the assigned user if they are connected
+	if conn, ok := userConnections[task.AssignedTo.ID]; ok {
+		notification := fmt.Sprintf("Task '%s' has been updated.", task.Name)
+		conn.WriteMessage(websocket.TextMessage, []byte(notification))
+	}
 	fmt.Println("Task updated successfully")
 	return nil
 }
