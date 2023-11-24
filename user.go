@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -24,7 +23,6 @@ func Register(user User) {
 
 func Login(username string, password string) bool {
 	var user User
-	if err := db.Where("username = ? AND password = ?", username, password).First(&user).Error; err != nil {
 	if err := db.Where("username = ? AND password = ?", username, password).First(&user).Error; err != nil {
 		log.Printf("Login failed for user %s: %v", username, err)
 		return false
