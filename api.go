@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"log"
+	"go.uber.org/zap"
 	"net/http"
 	"time"
 
@@ -32,7 +32,7 @@ func InitAPI() {
 	// Run the server in a goroutine so that it doesn't block
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("ListenAndServe: %v", err)
+			zap.L().Fatal("ListenAndServe failed", zap.Error(err))
 		}
 	}()
 }
@@ -42,8 +42,8 @@ func CloseAPI() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err := server.Shutdown(ctx); err != nil {
-		log.Printf("Error shutting down the server: %v", err)
+		zap.L().Error("Error shutting down the server", zap.Error(err))
 	} else {
-		log.Println("Server shut down gracefully")
+		zap.L().Info("Server shut down gracefully")
 	}
 }

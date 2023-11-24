@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"go.uber.org/zap"
 
 	"github.com/jinzhu/gorm"
 )
@@ -15,7 +15,7 @@ type User struct {
 
 func Register(user User) {
 	if err := db.Create(&user).Error; err != nil {
-		log.Printf("Error registering user: %v", err)
+		zap.L().Error("Error registering user", zap.Error(err))
 		return
 	}
 	log.Println("User registered successfully")
@@ -24,22 +24,22 @@ func Register(user User) {
 func Login(username string, password string) bool {
 	var user User
 	if err := db.Where("username = ? AND password = ?", username, password).First(&user).Error; err != nil {
-		log.Printf("Login failed for user %s: %v", username, err)
+		zap.L().Error("Login failed for user", zap.String("username", username), zap.Error(err))
 		return false
 	}
-	log.Printf("User %s logged in successfully", username)
+	zap.L().Info("User logged in successfully", zap.String("username", username))
 	return true
 }
 
 func ManageProfile(id int, updatedUser User) {
 	var user User
 	if err := db.First(&user, id).Error; err != nil {
-		log.Printf("Error finding user with id %d for profile update: %v", id, err)
+		zap.L().Error("Error finding user for profile update", zap.Int("id", id), zap.Error(err))
 		return
 	}
 	if err := db.Model(&user).Updates(updatedUser).Error; err != nil {
-		log.Printf("Error updating profile for user with id %d: %v", id, err)
+		zap.L().Error("Error updating profile for user", zap.Int("id", id), zap.Error(err))
 		return
 	}
-	log.Printf("Profile for user with id %d updated successfully", id)
+	zap.L().Info("Profile for user updated successfully", zap.Int("id", id))
 }
