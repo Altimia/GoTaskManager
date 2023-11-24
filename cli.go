@@ -171,9 +171,9 @@ var sendMessageCmd = &cobra.Command{
 		// code for sending a chat message
 		from := User{Username: args[0]}
 		to := User{Username: args[1]}
+		chat := NewChat(0, from, to)
 		message := args[2]
-		chat := NewChat(0, message, from, to)
-		chat.SendMessage()
+		chat.SendMessage(message)
 	},
 }
 
@@ -185,8 +185,7 @@ var receiveMessageCmd = &cobra.Command{
 		// code for receiving a chat message
 		from := User{Username: args[0]}
 		to := User{Username: args[1]}
-		message := args[2]
-		chat := NewChat(0, message, from, to)
+		chat := NewChat(0, from, to)
 		chat.ReceiveMessage()
 	},
 }
