@@ -73,7 +73,8 @@ func main() {
 	<-signalChan
 	fmt.Println("Shutting down server...")
 
-	// Call CloseAPI to handle graceful shutdown
+	// Call CloseAPI to handle graceful shutdown of the API server
+	CloseAPI()
 	CloseAPI()
 
 	// Optionally, you can add a timeout context for shutdown
