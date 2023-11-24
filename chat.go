@@ -1,8 +1,10 @@
 package main
 
 import (
-	"go.uber.org/zap"
+	"fmt"
+
 	"github.com/gorilla/websocket"
+	"go.uber.org/zap"
 )
 
 type Chat struct {
