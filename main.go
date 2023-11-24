@@ -48,13 +48,42 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+import (
+	"os"
+	"os/signal"
+	"syscall"
+)
+
+// ...
+
 func main() {
 	// Configure websocket route
 	http.HandleFunc("/ws", handleConnections)
 
-	// Start the server on localhost port 8000 and log any errors
-	err := http.ListenAndServe(":8000", nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
+	// Create a channel to listen for interrupt signals
+	signalChan := make(chan os.Signal, 1)
+	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+
+	// Start the server in a goroutine
+	server := &http.Server{Addr: ":8000", Handler: nil}
+	go func() {
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("ListenAndServe: %v", err)
+		}
+	}()
+
+	// Block until a signal is received
+	<-signalChan
+	fmt.Println("Shutting down server...")
+
+	// Call CloseAPI to handle graceful shutdown
+	CloseAPI()
+
+	// Optionally, you can add a timeout context for shutdown
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := server.Shutdown(ctx); err != nil {
+		log.Fatalf("Server Shutdown Failed:%+v", err)
 	}
+	fmt.Println("Server exited properly")
 }
