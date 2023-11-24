@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -32,7 +33,7 @@ func InitAPI() {
 	// Run the server in a goroutine so that it doesn't block
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			fmt.Printf("ListenAndServe: %v\n", err)
+			log.Fatalf("ListenAndServe: %v", err)
 		}
 	}()
 }
@@ -42,8 +43,8 @@ func CloseAPI() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err := server.Shutdown(ctx); err != nil {
-		fmt.Printf("Error shutting down the server: %v\n", err)
+		log.Printf("Error shutting down the server: %v", err)
 	} else {
-		fmt.Println("Server shut down gracefully")
+		log.Println("Server shut down gracefully")
 	}
 }
