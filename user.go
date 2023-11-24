@@ -18,7 +18,7 @@ func Register(user User) {
 		zap.L().Error("Error registering user", zap.Error(err))
 		return
 	}
-	log.Println("User registered successfully")
+	zap.L().Info("User registered successfully")
 }
 
 func Login(username string, password string) bool {
