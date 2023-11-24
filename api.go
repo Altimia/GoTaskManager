@@ -23,8 +23,6 @@ func InitAPI() {
 	router.Run() // listen and serve on 0.0.0.0:8080
 }
 
-// ...
-
 func CloseAPI() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
