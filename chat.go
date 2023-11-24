@@ -13,12 +13,12 @@ type Chat struct {
 	Conn     *websocket.Conn
 }
 
-func NewChat(id int, message string, from User, to User) *Chat {
+func NewChat(id int, from User, to User) *Chat {
 	return &Chat{
-		ID:      id,
-		Message: message,
-		From:    from,
-		To:      to,
+		ID:       id,
+		Messages: []string{},
+		From:     from,
+		To:       to,
 	}
 }
 
