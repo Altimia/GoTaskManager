@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var router *gin.Engine
+var server *http.Server
 
 func InitAPI() {
 	router = gin.Default()
@@ -32,23 +32,6 @@ func InitAPI() {
 			fmt.Printf("ListenAndServe: %v\n", err)
 		}
 	}()
-}
-
-// Define a global server variable to be used for graceful shutdown
-var server *http.Server
-
-func InitAPI() {
-	router = gin.Default()
-
-	// ... (other code remains unchanged)
-
-	// Initialize the server with the router
-	server = &http.Server{
-		Addr:    ":8080",
-		Handler: router,
-	}
-
-	// ... (other code remains unchanged)
 }
 
 func CloseAPI() {
