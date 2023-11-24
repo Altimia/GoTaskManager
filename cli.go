@@ -191,9 +191,3 @@ var receiveMessageCmd = &cobra.Command{
 	},
 }
 
-func main() {
-	taskCmd.AddCommand(addTaskCmd, viewTaskCmd, updateTaskCmd, deleteTaskCmd)
-	userCmd.AddCommand(registerCmd, loginCmd, manageProfileCmd)
-	chatCmd.AddCommand(sendMessageCmd, receiveMessageCmd)
-	Execute()
-}
