@@ -177,7 +177,10 @@ var sendMessageCmd = &cobra.Command{
 		// code for sending a chat message
 		from := User{Username: args[0]}
 		to := User{Username: args[1]}
-		chat := NewChat(0, from, to)
+		// Since we don't have an actual websocket connection in the CLI context,
+		// we'll pass a nil pointer for now. This will need to be handled properly
+		// when integrating with a real websocket connection.
+		chat := NewChat(0, from, to, nil)
 		message := args[2]
 		chat.SendMessage(message)
 	},
