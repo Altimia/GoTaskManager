@@ -19,6 +19,7 @@ var (
 		WriteBufferSize: 1024,
 	}
 	userConnections = make(map[uint]*websocket.Conn)
+	userConnectionsMutex sync.Mutex
 )
 
 func handleConnections(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +42,9 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		zap.L().Error("Error converting user_id to int", zap.Error(err))
 		return
 	}
+	userConnectionsMutex.Lock()
 	userConnections[uint(userID)] = ws
+	userConnectionsMutex.Unlock()
 	zap.L().Info("User connected via websocket", zap.Int("userID", userID))
 
 	// Infinite loop to continuously read incoming messages
@@ -49,7 +52,9 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		_, msg, err := ws.ReadMessage()
 		if err != nil {
 			zap.L().Error("Error reading message", zap.Error(err))
+			userConnectionsMutex.Lock()
 			delete(userConnections, uint(userID)) // Remove the connection if there's an error
+			userConnectionsMutex.Unlock()
 			zap.L().Info("User disconnected", zap.Int("userID", userID))
 			return
 		}
