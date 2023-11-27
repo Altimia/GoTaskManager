@@ -15,24 +15,21 @@ type Chat struct {
 	Conn     *websocket.Conn
 }
 
-func NewChat(id int, from User, to User) *Chat {
+func NewChat(id int, from User, to User, conn *websocket.Conn) *Chat {
 	return &Chat{
 		ID:       id,
 		Messages: []string{},
 		From:     from,
 		To:       to,
+		Conn:     conn,
 	}
 }
 
 func (c *Chat) SendMessage(message string) error {
 	c.Messages = append(c.Messages, message)
-	err := c.Conn.WriteMessage(websocket.TextMessage, []byte(message))
-	if err != nil {
-		if err != nil {
-			zap.L().Error("Error sending message", zap.Error(err))
-			return fmt.Errorf("Error sending message: %w", err)
-		}
-		return nil
+	if err := c.Conn.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
+		zap.L().Error("Error sending message", zap.Error(err))
+		return fmt.Errorf("Error sending message: %w", err)
 	}
 	zap.L().Info("Message sent", zap.String("from", c.From.Username), zap.String("message", message))
 	return nil
