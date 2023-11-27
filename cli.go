@@ -24,10 +24,13 @@ var taskCmd = &cobra.Command{
 	Use:   "task",
 	Short: "Manage tasks",
 	Long:  `Add, view, update, and delete tasks.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		// code for running the task command
-		// This will be implemented in the next steps
-	},
+}
+
+func init() {
+	taskCmd.AddCommand(addTaskCmd)
+	taskCmd.AddCommand(viewTaskCmd)
+	taskCmd.AddCommand(updateTaskCmd)
+	taskCmd.AddCommand(deleteTaskCmd)
 }
 
 var addTaskCmd = &cobra.Command{
