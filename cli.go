@@ -198,7 +198,11 @@ var receiveMessageCmd = &cobra.Command{
 		// we'll pass a nil pointer for now. This will need to be handled properly
 		// when integrating with a real websocket connection.
 		chat := NewChat(0, from, to, nil)
-		chat.ReceiveMessage()
+		stopChan := make(chan struct{}) // Create a channel to signal when to stop receiving messages
+		defer close(stopChan) // Ensure the channel is closed when the function returns
+		if err := chat.ReceiveMessage(stopChan); err != nil {
+			fmt.Printf("Error receiving messages: %v\n", err)
+		}
 	},
 }
 
