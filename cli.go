@@ -105,10 +105,12 @@ var userCmd = &cobra.Command{
 	Use:   "user",
 	Short: "Manage users",
 	Long:  `Register, login, and manage user profiles.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		// code for running the user command
-		// This will be implemented in the next steps
-	},
+}
+
+func init() {
+	userCmd.AddCommand(registerCmd)
+	userCmd.AddCommand(loginCmd)
+	userCmd.AddCommand(manageProfileCmd)
 }
 
 var registerCmd = &cobra.Command{
@@ -160,10 +162,11 @@ var chatCmd = &cobra.Command{
 	Use:   "chat",
 	Short: "Chat with users",
 	Long:  `Send and receive chat messages.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		// code for running the chat command
-		// This will be implemented in the next steps
-	},
+}
+
+func init() {
+	chatCmd.AddCommand(sendMessageCmd)
+	chatCmd.AddCommand(receiveMessageCmd)
 }
 
 var sendMessageCmd = &cobra.Command{
