@@ -45,10 +45,12 @@ func UpdateTask(id int, updatedTask Task) error {
 		zap.L().Error("Error updating task", zap.Int("id", id), zap.Error(err))
 		return err
 	}
-	// Send notification to the assigned user if they are connected
-	if conn, ok := userConnections[task.AssignedTo.ID]; ok {
+	// Send notification to the assigned user if they are connected and the connection is not nil
+	if conn, ok := userConnections[task.AssignedTo.ID]; ok && conn != nil {
 		notification := fmt.Sprintf("Task '%s' has been updated.", task.Name)
-		conn.WriteMessage(websocket.TextMessage, []byte(notification))
+		if err := conn.WriteMessage(websocket.TextMessage, []byte(notification)); err != nil {
+			zap.L().Error("Error sending update notification", zap.Error(err))
+		}
 	}
 	zap.L().Info("Task updated successfully", zap.Int("id", id))
 	return nil
