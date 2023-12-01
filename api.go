@@ -14,7 +14,7 @@ var (
 	server *http.Server
 )
 
-func InitAPI() {
+func setupRouter() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("/ping", func(c *gin.Context) {
@@ -23,13 +23,16 @@ func InitAPI() {
 		})
 	})
 
-	// Define the server with a specific address and attach the router
-	server := &http.Server{
+	return router
+}
+
+func InitAPI() {
+	router = setupRouter()
+	server = &http.Server{
 		Addr:    ":8080",
 		Handler: router,
 	}
 
-	// Run the server in a goroutine so that it doesn't block
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			zap.L().Fatal("ListenAndServe failed", zap.Error(err))
