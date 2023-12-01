@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
 )
 
