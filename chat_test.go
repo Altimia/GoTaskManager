@@ -48,6 +48,7 @@ func TestSendMessageNoConnection(t *testing.T) {
 func TestReceiveMessage(t *testing.T) {
 	mockConn := new(MockWebSocketConn)
 	mockConn.On("ReadMessage").Return(websocket.TextMessage, []byte("received message"), nil).Once()
+	mockConn.On("ReadMessage").Return(0, nil, errors.New("connection closed")).Once()
 
 	chat := NewChat(1, User{Username: "fromUser"}, User{Username: "toUser"}, mockConn)
 	stopChan := make(chan struct{})
