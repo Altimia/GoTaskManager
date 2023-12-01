@@ -47,11 +47,14 @@ func TestSendMessageNoConnection(t *testing.T) {
 
 func TestReceiveMessage(t *testing.T) {
 	mockConn := new(MockWebSocketConn)
-	mockConn.On("ReadMessage").Return(websocket.TextMessage, []byte("received message"), nil).Maybe()
+	mockConn.On("ReadMessage").Return(websocket.TextMessage, []byte("received message"), nil).Once()
 
 	chat := NewChat(1, User{Username: "fromUser"}, User{Username: "toUser"}, mockConn)
 	stopChan := make(chan struct{})
-	go chat.ReceiveMessage(stopChan)
+	go func() {
+		defer close(stopChan)
+		chat.ReceiveMessage(stopChan)
+	}()
 
 	// Simulate receiving a message by sending a stop signal after a short delay
 	time.AfterFunc(10*time.Millisecond, func() {
