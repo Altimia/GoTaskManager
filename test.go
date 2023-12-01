@@ -20,12 +20,11 @@ func TestRegister(t *testing.T) {
 	mock.ExpectCommit()
 
 	// Use the mocked DB connection
-	oldDB := db
-	db, err = gorm.Open("sqlite3", db)
+	gormDB, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
-		t.Fatalf("Failed to open db: %v", err)
+		t.Fatalf("Failed to open gorm db: %v", err)
 	}
-	defer func() { db = oldDB }()
+	defer func() { gormDB.Close() }()
 
 	// Test the Register function
 	Register(User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
@@ -46,12 +45,11 @@ func TestLogin(t *testing.T) {
 	mock.ExpectQuery("SELECT * FROM `users`").WithArgs("testuser", "testpass").WillReturnRows(rows)
 
 	// Use the mocked DB connection
-	oldDB := db
-	db, err = gorm.Open("sqlite3", db)
+	gormDB, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
-		t.Fatalf("Failed to open db: %v", err)
+		t.Fatalf("Failed to open gorm db: %v", err)
 	}
-	defer func() { db = oldDB }()
+	defer func() { gormDB.Close() }()
 
 	// Test the Login function
 	result := Login("testuser", "testpass")
