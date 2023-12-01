@@ -25,9 +25,9 @@ func AddTask(task Task) error {
 	return nil
 }
 
-func ViewTask(id int) (Task, error) {
+func ViewTask(gormDB *gorm.DB, id int) (Task, error) {
 	var task Task
-	if err := db.First(&task, id).Error; err != nil {
+	if err := gormDB.First(&task, id).Error; err != nil {
 		zap.L().Error("Error viewing task", zap.Int("id", id), zap.Error(err))
 		return Task{}, err
 	}
