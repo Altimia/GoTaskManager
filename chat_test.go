@@ -53,9 +53,10 @@ func TestReceiveMessage(t *testing.T) {
 	stopChan := make(chan struct{})
 	go chat.ReceiveMessage(stopChan)
 
-	// Wait for the goroutine to run and simulate receiving a message
-	time.Sleep(10 * time.Millisecond)
-	stopChan <- struct{}{}
+	// Simulate receiving a message by sending a stop signal after a short delay
+	time.AfterFunc(10*time.Millisecond, func() {
+		stopChan <- struct{}{}
+	})
 	<-stopChan // Wait for the goroutine to finish
 
 	assert.Equal(t, []string{"received message"}, chat.Messages)
