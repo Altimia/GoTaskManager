@@ -45,17 +45,16 @@ func TestSendMessageNoConnection(t *testing.T) {
 
 func TestReceiveMessage(t *testing.T) {
 	mockConn := new(MockWebSocketConn)
-	mockConn.On("ReadMessage").Return(websocket.TextMessage, []byte("received message"), nil)
+	mockConn.On("ReadMessage").Return(websocket.TextMessage, []byte("received message"), nil).Once()
 
 	chat := NewChat(1, User{Username: "fromUser"}, User{Username: "toUser"}, mockConn)
 	stopChan := make(chan struct{})
-	go func() {
-		chat.ReceiveMessage(stopChan)
-		close(stopChan)
-	}()
+	go chat.ReceiveMessage(stopChan)
 
-	// Simulate receiving a message
+	// Wait for the goroutine to run and simulate receiving a message
+	time.Sleep(10 * time.Millisecond)
 	stopChan <- struct{}{}
+	<-stopChan // Wait for the goroutine to finish
 
 	assert.Equal(t, []string{"received message"}, chat.Messages)
 	mockConn.AssertExpectations(t)
