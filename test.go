@@ -60,5 +60,3 @@ func TestLogin(t *testing.T) {
 	// Ensure all expectations are met
 	assert.NoError(t, mock.ExpectationsWereMet())
 }
-
-// Additional tests for task management and real-time communication would follow a similar pattern
