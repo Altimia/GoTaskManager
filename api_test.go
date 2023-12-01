@@ -11,22 +11,6 @@ import (
 )
 
 func TestPingRoute(t *testing.T) {
-	router := gin.Default()
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-
-	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/ping", nil)
-	router.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.Equal(t, "{\"message\":\"pong\"}", w.Body.String())
-}
-
-func TestMainAPI(t *testing.T) {
 	// Initialize the API routes
 	InitAPI()
 
@@ -34,5 +18,23 @@ func TestMainAPI(t *testing.T) {
 	ts := httptest.NewServer(router)
 	defer ts.Close()
 
-	// Define more tests for other endpoints here
+	// Create a request to the "/ping" endpoint
+	req, _ := http.NewRequest("GET", ts.URL+"/ping", nil)
+
+	// Perform the request and capture the response
+	response, err := http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatalf("Could not perform request: %v", err)
+	}
+	defer response.Body.Close()
+
+	// Read the response body
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		t.Fatalf("Could not read response body: %v", err)
+	}
+
+	// Assert the status code and response body
+	assert.Equal(t, http.StatusOK, response.StatusCode)
+	assert.JSONEq(t, `{"message":"pong"}`, string(body))
 }
