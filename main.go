@@ -2,13 +2,15 @@ package main
 
 import (
 	"context"
-	"go.uber.org/zap"
 	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
+	"sync"
 	"syscall"
 	"time"
+
+	"go.uber.org/zap"
 
 	"github.com/gorilla/websocket"
 )
@@ -18,7 +20,7 @@ var (
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 	}
-	userConnections = make(map[uint]*websocket.Conn)
+	userConnections      = make(map[uint]*websocket.Conn)
 	userConnectionsMutex sync.Mutex
 )
 
