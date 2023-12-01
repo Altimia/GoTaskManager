@@ -39,9 +39,37 @@ func TestChatCmd(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-// Additional tests for individual commands would go here
-// For example:
-// func TestAddTaskCmd(t *testing.T) {
-//     _, err := executeCommand(rootCmd, "task", "add", "TaskName", "TaskDescription", "Pending", "username")
-//     assert.NoError(t, err)
-// }
+func TestAddTaskCmd(t *testing.T) {
+	_, err := executeCommand(rootCmd, "task", "add", "TaskName", "TaskDescription", "Pending", "username")
+	assert.NoError(t, err)
+}
+
+func TestViewTaskCmd(t *testing.T) {
+	_, err := executeCommand(rootCmd, "task", "view", "1")
+	assert.NoError(t, err)
+}
+
+func TestUpdateTaskCmd(t *testing.T) {
+	_, err := executeCommand(rootCmd, "task", "update", "1", "UpdatedTaskName", "UpdatedDescription", "Completed", "username")
+	assert.NoError(t, err)
+}
+
+func TestDeleteTaskCmd(t *testing.T) {
+	_, err := executeCommand(rootCmd, "task", "delete", "1")
+	assert.NoError(t, err)
+}
+
+func TestRegisterCmd(t *testing.T) {
+	_, err := executeCommand(rootCmd, "user", "register", "username", "password", "profile")
+	assert.NoError(t, err)
+}
+
+func TestLoginCmd(t *testing.T) {
+	_, err := executeCommand(rootCmd, "user", "login", "username", "password")
+	assert.NoError(t, err)
+}
+
+func TestManageProfileCmd(t *testing.T) {
+	_, err := executeCommand(rootCmd, "user", "manage", "1", "newusername", "newpassword", "newprofile")
+	assert.NoError(t, err)
+}
