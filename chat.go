@@ -2,20 +2,24 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
 )
+
+// WebSocketConnection defines the interface for a websocket connection.
+type WebSocketConnection interface {
+	WriteMessage(messageType int, data []byte) error
+	ReadMessage() (messageType int, p []byte, err error)
+}
 
 type Chat struct {
 	ID       int
 	Messages []string
 	From     User
 	To       User
-	Conn     *websocket.Conn
+	Conn     WebSocketConnection
 }
 
-func NewChat(id int, from User, to User, conn *websocket.Conn) *Chat {
+func NewChat(id int, from User, to User, conn WebSocketConnection) *Chat {
 	return &Chat{
 		ID:       id,
 		Messages: []string{},
