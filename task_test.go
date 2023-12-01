@@ -6,6 +6,8 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
+	gormsqlite "gorm.io/driver/sqlite" // This is the import path for the GORM SQLite driver
+	"gorm.io/gorm"
 )
 
 func TestAddTask(t *testing.T) {
@@ -62,13 +64,16 @@ func TestViewTask(t *testing.T) {
 	assert.NoError(t, mock.ExpectationsWereMet())
 }
 func TestUpdateTask(t *testing.T) {
-	db, mock, err := sqlmock.New()
+	// Create a new sqlmock database connection.
+	sqlDB, mock, err := sqlmock.New()
 	assert.NoError(t, err)
-	defer db.Close()
+	defer sqlDB.Close()
 
-	gormDB, err := gorm.Open("sqlite3", db)
+	// Open the mocked sqlDB with GORM
+	gormDB, err := gorm.Open("sqlite3", &gorm.Config{
+		Dialector: gormsqlite.Dialector{Conn: sqlDB},
+	})
 	assert.NoError(t, err)
-	defer gormDB.Close()
 
 	mock.ExpectBegin()
 	mock.ExpectExec("UPDATE `tasks` SET").WithArgs("Updated Task", "Updated Description", "Completed", sqlmock.AnyArg(), 1).WillReturnResult(sqlmock.NewResult(1, 1))
