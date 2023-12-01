@@ -29,18 +29,22 @@ func TestAddTask(t *testing.T) {
 }
 func TestViewTask(t *testing.T) {
 	db, mock, err := sqlmock.New()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
 	defer db.Close()
 
 	gormDB, err := gorm.Open("sqlite3", db)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a gorm database connection", err)
+	}
 	defer gormDB.Close()
 
 	rows := sqlmock.NewRows([]string{"id", "name", "description", "status", "assigned_to_id"}).
 		AddRow(1, "Test Task", "Test Description", "Pending", 1)
 	mock.ExpectQuery("SELECT * FROM `tasks` WHERE").WithArgs(1).WillReturnRows(rows)
 
-	task, err := ViewTask(1)
+	task, err := ViewTask(gormDB, 1)
 	assert.NoError(t, err)
 	assert.NotNil(t, task)
 	assert.Equal(t, "Test Task", task.Name)
