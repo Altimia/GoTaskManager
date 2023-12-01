@@ -13,9 +13,17 @@ func TestAddTask(t *testing.T) {
 	assert.NoError(t, err)
 	defer db.Close()
 
+	// Initialize the db variable with the mocked database connection for the test
+	db, mock, err = sqlmock.New()
+	assert.NoError(t, err)
+	defer db.Close()
+
 	gormDB, err := gorm.Open("sqlite3", db)
 	assert.NoError(t, err)
 	defer gormDB.Close()
+
+	// Set the global db variable to the mocked gormDB for use in AddTask
+	db = gormDB
 
 	mock.ExpectBegin()
 	mock.ExpectExec("INSERT INTO `tasks`").WithArgs("Test Task", "Test Description", "Pending", sqlmock.AnyArg()).WillReturnResult(sqlmock.NewResult(1, 1))
