@@ -55,8 +55,5 @@ Ensure type casting and type inference are applied appropriately.
 Logging
 Integrate Zap or Logrus for logging operations, errors, and information.
 
-API Clients
-Create API clients using Heimdall or GRequests.
-
 Testing
 Write unit tests and integration tests for various components of the project.
