@@ -19,7 +19,10 @@ func TestRegister(t *testing.T) {
 
 	// Use the mocked DB connection
 	oldDB := db
-	db = gorm.Open("sqlite3", db)
+	db, err = gorm.Open("sqlite3", db)
+	if err != nil {
+		t.Fatalf("Failed to open db: %v", err)
+	}
 	defer func() { db = oldDB }()
 
 	// Test the Register function
@@ -42,7 +45,10 @@ func TestLogin(t *testing.T) {
 
 	// Use the mocked DB connection
 	oldDB := db
-	db = gorm.Open("sqlite3", db)
+	db, err = gorm.Open("sqlite3", db)
+	if err != nil {
+		t.Fatalf("Failed to open db: %v", err)
+	}
 	defer func() { db = oldDB }()
 
 	// Test the Login function
