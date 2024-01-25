@@ -1,4 +1,8 @@
-package main
+package main_test
+
+import (
+	"main"
+)
 
 import (
 	"testing"
@@ -20,7 +24,7 @@ func TestInitDB(t *testing.T) {
 	mock.ExpectExec("CREATE TABLE").WillReturnResult(sqlmock.NewResult(0, 0))
 	mock.ExpectCommit()
 
-	InitDB()
+	main.InitDB()
 
 	assert.NoError(t, mock.ExpectationsWereMet())
 }
@@ -34,7 +38,7 @@ func TestCloseDB(t *testing.T) {
 	assert.NoError(t, err)
 	defer gormDB.Close()
 
-	CloseDB()
+	main.CloseDB()
 
 	// Since CloseDB uses the global db variable, we need to set it to our mock
 	// and then assert that there's no error when closing it.

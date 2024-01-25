@@ -9,6 +9,7 @@ import (
 var db *gorm.DB
 
 func InitDB() {
+func InitDB() {
 	var err error
 	db, err = gorm.Open("sqlite3", "test.db")
 	if err != nil {
@@ -21,6 +22,7 @@ func InitDB() {
 	fmt.Println("Database connected")
 }
 
+func CloseDB() {
 func CloseDB() {
 	err := db.Close()
 	if err != nil {
