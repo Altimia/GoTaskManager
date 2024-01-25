@@ -9,20 +9,20 @@ import (
 )
 
 func TestAddTask(t *testing.T) {
-	gormDB, err := gorm.Open("sqlite3", ":memory:")
-	assert.NoError(t, err)
-	defer gormDB.Close()
-
-	db, mock, err := sqlmock.NewWithDSN(":memory:")
+	db, mock, err := sqlmock.New()
 	assert.NoError(t, err)
 	defer db.Close()
+
+	gormDB, err := gorm.Open("sqlite3", db)
+	assert.NoError(t, err)
+	defer gormDB.Close()
 
 	mock.ExpectBegin()
 	mock.ExpectExec("INSERT INTO `tasks`").WithArgs("Test Task", "Test Description", "Pending", sqlmock.AnyArg()).WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
 	task := Task{Name: "Test Task", Description: "Test Description", Status: "Pending", AssignedTo: User{Model: gorm.Model{ID: 1}}}
-	err = AddTask(task)
+	err = AddTask(gormDB, task)
 	assert.NoError(t, err)
 
 	assert.NoError(t, mock.ExpectationsWereMet())

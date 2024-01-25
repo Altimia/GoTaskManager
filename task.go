@@ -16,8 +16,8 @@ type Task struct {
 	AssignedTo  User
 }
 
-func AddTask(task Task) error {
-	if err := db.Create(&task).Error; err != nil {
+func AddTask(gormDB *gorm.DB, task Task) error {
+	if err := gormDB.Create(&task).Error; err != nil {
 		zap.L().Error("Error adding task", zap.Error(err))
 		return err
 	}
