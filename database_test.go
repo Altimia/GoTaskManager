@@ -38,7 +38,8 @@ func TestCloseDB(t *testing.T) {
 	defer gormDB.Close()
 
 	// Use the exported OpenDatabase function to initialize the database
-	db, err = main.OpenDatabase() // Reuse the existing 'err' variable without redeclaring it
+	db, err = OpenDatabase() // Reuse the existing 'err' variable without redeclaring it
+	db, err = OpenDatabase() // Reuse the existing 'err' variable without redeclaring it
 	assert.NoError(t, err)
 	defer db.Close()
 
