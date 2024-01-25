@@ -21,7 +21,7 @@ func TestInitDB(t *testing.T) {
 	mock.ExpectExec("CREATE TABLE").WillReturnResult(sqlmock.NewResult(0, 0))
 	mock.ExpectCommit()
 
-	db, err = main.OpenDatabase() // Reuse the existing 'err' variable without redeclaring it
+	gormDB, err = OpenDatabase() // Reuse the existing 'err' variable without redeclaring it
 	assert.NoError(t, err)
 	defer db.Close()
 
@@ -38,14 +38,12 @@ func TestCloseDB(t *testing.T) {
 	defer gormDB.Close()
 
 	// Use the exported OpenDatabase function to initialize the database
-	db, err = OpenDatabase() // Reuse the existing 'err' variable without redeclaring it
-	db, err = OpenDatabase() // Reuse the existing 'err' variable without redeclaring it
+	gormDB, err = OpenDatabase() // Reuse the existing 'err' variable without redeclaring it
 	assert.NoError(t, err)
 	defer db.Close()
 
 	// Since CloseDB uses the global db variable, we need to set it to our mock
 	// and then assert that there's no error when closing it.
-	err = db.Close()
 	err = db.Close()
 	assert.NoError(t, err)
 }
