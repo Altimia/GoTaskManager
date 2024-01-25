@@ -38,7 +38,7 @@ func TestViewTask(t *testing.T) {
 
 	rows := sqlmock.NewRows([]string{"id", "name", "description", "status", "assigned_to_id"}).
 		AddRow(1, "Test Task", "Test Description", "Pending", 1)
-	mock.ExpectQuery("SELECT * FROM `tasks` WHERE").WithArgs(1).WillReturnRows(rows)
+	mock.ExpectQuery("SELECT \\* FROM \"tasks\" WHERE \"tasks\"\\.\"deleted_at\" IS NULL AND \\(\\(\"tasks\"\\.\"id\" = \\?\\)\\) ORDER BY \"tasks\"\\.\"id\" ASC LIMIT 1").WithArgs(1).WillReturnRows(rows)
 
 	task, err := ViewTask(gormDB, 1)
 	assert.NoError(t, err)
