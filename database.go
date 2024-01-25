@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 var db *gorm.DB
 
-func InitDB() {
 func InitDB() {
 	var err error
 	db, err = gorm.Open("sqlite3", "test.db")
@@ -22,7 +22,6 @@ func InitDB() {
 	fmt.Println("Database connected")
 }
 
-func CloseDB() {
 func CloseDB() {
 	err := db.Close()
 	if err != nil {
