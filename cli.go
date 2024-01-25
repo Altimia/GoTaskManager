@@ -49,7 +49,7 @@ var addTaskCmd = &cobra.Command{
 			return
 		}
 		task := Task{Name: args[0], Description: args[1], Status: args[2], AssignedTo: user}
-		if err := AddTask(task); err != nil {
+		if err := AddTask(db, task); err != nil {
 			fmt.Println("Failed to add task:", err)
 			return
 		}
@@ -199,10 +199,9 @@ var receiveMessageCmd = &cobra.Command{
 		// when integrating with a real websocket connection.
 		chat := NewChat(0, from, to, nil)
 		stopChan := make(chan struct{}) // Create a channel to signal when to stop receiving messages
-		defer close(stopChan) // Ensure the channel is closed when the function returns
+		defer close(stopChan)           // Ensure the channel is closed when the function returns
 		if err := chat.ReceiveMessage(stopChan); err != nil {
 			fmt.Printf("Error receiving messages: %v\n", err)
 		}
 	},
 }
-
