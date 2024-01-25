@@ -18,7 +18,7 @@ func TestAddTask(t *testing.T) {
 	defer gormDB.Close()
 
 	mock.ExpectBegin()
-	mock.ExpectExec("INSERT INTO `tasks`").WithArgs("Test Task", "Test Description", "Pending", sqlmock.AnyArg()).WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec("INSERT INTO \"tasks\" \\(\"created_at\",\"updated_at\",\"deleted_at\",\"name\",\"description\",\"status\"\\) VALUES \\(\\?,\\?,\\?,\\?,\\?,\\?\\)").WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), "Test Task", "Test Description", "Pending").WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
 	task := Task{Name: "Test Task", Description: "Test Description", Status: "Pending", AssignedTo: User{Model: gorm.Model{ID: 1}}}
