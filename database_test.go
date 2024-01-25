@@ -1,6 +1,7 @@
 package main_test
 
 import (
+	"main"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
