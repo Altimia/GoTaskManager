@@ -9,15 +9,21 @@ import (
 
 var db *gorm.DB
 
-func InitDB() {
+// OpenDatabase is an exported function that initializes the database and returns a *gorm.DB instance.
+func OpenDatabase() (*gorm.DB, error) {
 	var err error
 	db, err = gorm.Open("sqlite3", "test.db")
 	if err != nil {
-		fmt.Println("Failed to connect to database")
-		panic("Failed to connect to database")
+		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
 
 	db.AutoMigrate(&Task{}, &User{}, &Chat{})
+
+	return db, nil
+}
+
+func InitDB() {
+	db, _ = OpenDatabase()
 
 	fmt.Println("Database connected")
 }

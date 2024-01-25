@@ -1,12 +1,12 @@
 package main_test
 
 import (
-	"main"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
+	"main"
 )
 
 func TestInitDB(t *testing.T) {
@@ -22,7 +22,9 @@ func TestInitDB(t *testing.T) {
 	mock.ExpectExec("CREATE TABLE").WillReturnResult(sqlmock.NewResult(0, 0))
 	mock.ExpectCommit()
 
-	main.InitDB()
+	db, err := main.OpenDatabase()
+	assert.NoError(t, err)
+	defer db.Close()
 
 	assert.NoError(t, mock.ExpectationsWereMet())
 }
@@ -36,11 +38,14 @@ func TestCloseDB(t *testing.T) {
 	assert.NoError(t, err)
 	defer gormDB.Close()
 
-	main.CloseDB()
+	// Use the exported OpenDatabase function to initialize the database
+	db, err := main.OpenDatabase()
+	assert.NoError(t, err)
+	defer db.Close()
 
 	// Since CloseDB uses the global db variable, we need to set it to our mock
 	// and then assert that there's no error when closing it.
-	db = gormDB.DB()
+	err = db.Close()
 	err = db.Close()
 	assert.NoError(t, err)
 }
