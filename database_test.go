@@ -21,7 +21,8 @@ func TestInitDB(t *testing.T) {
 	mock.ExpectExec("CREATE TABLE").WillReturnResult(sqlmock.NewResult(0, 0))
 	mock.ExpectCommit()
 
-	db, err := main.OpenDatabase()
+	var err error
+	db, err = main.OpenDatabase()
 	assert.NoError(t, err)
 	defer db.Close()
 
@@ -38,7 +39,8 @@ func TestCloseDB(t *testing.T) {
 	defer gormDB.Close()
 
 	// Use the exported OpenDatabase function to initialize the database
-	db, err := main.OpenDatabase()
+	var err error
+	db, err = main.OpenDatabase()
 	assert.NoError(t, err)
 	defer db.Close()
 
