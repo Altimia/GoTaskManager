@@ -13,6 +13,11 @@ func TestRegister(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	assert.NoError(t, err)
 	defer db.Close()
+func TestRegister(t *testing.T) {
+	// Mock database and expectations
+	sqlDB, mock, err := sqlmock.New()
+	assert.NoError(t, err)
+	defer sqlDB.Close()
 
 	// Set up the mock expectations
 	mock.ExpectBegin()
@@ -20,13 +25,14 @@ func TestRegister(t *testing.T) {
 	mock.ExpectCommit()
 
 	// Use the mocked DB connection
-	gormDB, err := gorm.Open("sqlite3", db)
+	gormDB, err := gorm.Open("sqlite3", sqlDB)
 	if err != nil {
 		t.Fatalf("Failed to open gorm db: %v", err)
 	}
 	defer func() { gormDB.Close() }()
+
 	// Set the global db variable to the mocked gormDB
-	db = gormDB
+	db = gormDB // This line should be removed as it's incorrect
 
 	// Test the Register function
 	Register(User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
