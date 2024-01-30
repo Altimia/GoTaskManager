@@ -10,11 +10,6 @@ import (
 
 func TestRegister(t *testing.T) {
 	// Mock database and expectations
-	db, mock, err := sqlmock.New()
-	assert.NoError(t, err)
-	defer db.Close()
-func TestRegister(t *testing.T) {
-	// Mock database and expectations
 	sqlDB, mock, err := sqlmock.New()
 	assert.NoError(t, err)
 	defer sqlDB.Close()
