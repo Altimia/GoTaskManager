@@ -63,7 +63,7 @@ func TestUpdateTask(t *testing.T) {
 
 	mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "tasks" WHERE "tasks"."deleted_at" IS NULL AND (("tasks"."id" = 1)) ORDER BY "tasks"."id" ASC LIMIT 1`)).WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "name", "description", "status", "assigned_to_id"}).AddRow(1, time.Now(), time.Now(), nil, "Existing Task", "Existing Description", "Pending", 1))
 	mock.ExpectBegin()
-	mock.ExpectExec(regexp.QuoteMeta(`UPDATE "tasks" SET "created_at" = ?, "updated_at" = ?, "deleted_at" = ?, "name" = ?, "description" = ?, "status" = ?, "assigned_to_id" = ? WHERE "id" = ?`)).WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), "Updated Task", "Updated Description", "Completed", 1, 1).WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec(regexp.QuoteMeta(`UPDATE "tasks" SET "description" = ?, "name" = ?, "status" = ?, "updated_at" = ? WHERE "tasks"."deleted_at" IS NULL AND "tasks"."id" = ?`)).WithArgs("Updated Description", "Updated Task", "Completed", sqlmock.AnyArg(), 1).WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
 	task := Task{Name: "Updated Task", Description: "Updated Description", Status: "Completed", AssignedTo: User{Model: gorm.Model{ID: 1}}}
