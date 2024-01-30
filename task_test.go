@@ -62,11 +62,11 @@ func TestUpdateTask(t *testing.T) {
 	defer gormDB.Close()
 
 	mock.ExpectBegin()
-	mock.ExpectExec("UPDATE `tasks` SET").WithArgs("Updated Task", "Updated Description", "Completed", sqlmock.AnyArg(), 1).WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec("UPDATE `tasks` SET").WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), "Updated Task", "Updated Description", "Completed", sqlmock.AnyArg(), 1).WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
 	task := Task{Name: "Updated Task", Description: "Updated Description", Status: "Completed", AssignedTo: User{Model: gorm.Model{ID: 1}}}
-	err = UpdateTask(1, task)
+	err = UpdateTask(gormDB, 1, task)
 	assert.NoError(t, err)
 
 	assert.NoError(t, mock.ExpectationsWereMet())
