@@ -26,8 +26,8 @@ func TestRegister(t *testing.T) {
 	}
 	defer func() { gormDB.Close() }()
 
-	// Set the global db variable to the mocked gormDB
-	db = gormDB // This line should be removed as it's incorrect
+	// Inject the mocked gormDB into the Register function
+	Register(gormDB, User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
 
 	// Test the Register function
 	Register(User{Username: "testuser", Password: "testpass", Profile: "testprofile"})

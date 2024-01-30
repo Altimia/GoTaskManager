@@ -13,8 +13,8 @@ type User struct {
 	Profile  string
 }
 
-func Register(user User) {
-	if err := db.Create(&user).Error; err != nil {
+func Register(gormDB *gorm.DB, user User) {
+	if err := gormDB.Create(&user).Error; err != nil {
 		zap.L().Error("Error registering user", zap.Error(err))
 		return
 	}
