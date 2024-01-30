@@ -104,8 +104,20 @@ var deleteTaskCmd = &cobra.Command{
 	Long:  `Delete a task from the task list.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for deleting a task
-		id, _ := strconv.Atoi(args[0])
-		DeleteTask(id)
+		if len(args) != 1 {
+			fmt.Println("Invalid number of arguments. Expected 1 argument: id.")
+			return
+		}
+		id, err := strconv.Atoi(args[0])
+		if err != nil {
+			fmt.Println("Invalid task ID:", args[0])
+			return
+		}
+		if err := DeleteTask(db, id); err != nil {
+			fmt.Println("Failed to delete task:", err)
+			return
+		}
+		fmt.Println("Task deleted successfully")
 	},
 }
 
