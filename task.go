@@ -36,12 +36,13 @@ func ViewTask(gormDB *gorm.DB, id int) (Task, error) {
 }
 
 func UpdateTask(id int, updatedTask Task) error {
+func UpdateTask(gormDB *gorm.DB, id int, updatedTask Task) error {
 	var task Task
-	if err := db.First(&task, id).Error; err != nil {
+	if err := gormDB.First(&task, id).Error; err != nil {
 		zap.L().Error("Error finding task for update", zap.Int("id", id), zap.Error(err))
 		return err
 	}
-	if err := db.Model(&task).Updates(updatedTask).Error; err != nil {
+	if err := gormDB.Model(&task).Updates(updatedTask).Error; err != nil {
 		zap.L().Error("Error updating task", zap.Int("id", id), zap.Error(err))
 		return err
 	}
