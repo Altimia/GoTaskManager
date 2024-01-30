@@ -79,6 +79,10 @@ var updateTaskCmd = &cobra.Command{
 	Long:  `Update the details of a task.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// code for updating a task
+		if len(args) != 5 {
+			fmt.Println("Invalid number of arguments. Expected 5 arguments: id, name, description, status, assignedTo.")
+			return
+		}
 		id, _ := strconv.Atoi(args[0])
 		var user User
 		if err := db.Where("username = ?", args[4]).First(&user).Error; err != nil {
@@ -86,7 +90,11 @@ var updateTaskCmd = &cobra.Command{
 			return
 		}
 		task := Task{Name: args[1], Description: args[2], Status: args[3], AssignedTo: user}
-		UpdateTask(id, task)
+		if err := UpdateTask(db, id, task); err != nil {
+			fmt.Println("Failed to update task:", err)
+			return
+		}
+		fmt.Println("Task updated successfully")
 	},
 }
 
