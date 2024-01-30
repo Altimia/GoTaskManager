@@ -1,12 +1,14 @@
 package main
 
 import (
+	"regexp"
 	"testing"
+
+	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
-	"time"
 )
 
 func TestAddTask(t *testing.T) {
@@ -39,7 +41,7 @@ func TestViewTask(t *testing.T) {
 
 	rows := sqlmock.NewRows([]string{"id", "name", "description", "status", "assigned_to_id", "created_at", "updated_at", "deleted_at"}).
 		AddRow(1, "Test Task", "Test Description", "Pending", 1, time.Now(), time.Now(), nil)
-	mock.ExpectQuery("SELECT \\* FROM \"tasks\" WHERE \"tasks\"\\.\"deleted_at\" IS NULL AND \\(\\(\"tasks\"\\.\"id\" = \\?\\)\\) ORDER BY \"tasks\"\\.\"id\" ASC LIMIT 1").WithArgs(1).WillReturnRows(rows)
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "tasks" WHERE "tasks"."deleted_at" IS NULL AND (("tasks"."id" = ?)) ORDER BY "tasks"."id" ASC LIMIT 1`)).WithArgs(1).WillReturnRows(rows)
 
 	task, err := ViewTask(gormDB, 1)
 	assert.NoError(t, err)
