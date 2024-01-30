@@ -81,8 +81,9 @@ func TestDeleteTask(t *testing.T) {
 	assert.NoError(t, err)
 	defer gormDB.Close()
 
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "tasks" WHERE "tasks"."deleted_at" IS NULL AND (("tasks"."id" = ?)) ORDER BY "tasks"."id" ASC LIMIT 1`)).WithArgs(1).WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "name", "description", "status", "assigned_to_id"}).AddRow(1, time.Now(), time.Now(), nil, "Test Task", "Test Description", "Pending", 1))
 	mock.ExpectBegin()
-	mock.ExpectExec("DELETE FROM `tasks` WHERE").WithArgs(1).WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec(regexp.QuoteMeta(`DELETE FROM "tasks" WHERE "tasks"."deleted_at" IS NULL AND "tasks"."id" = ?`)).WithArgs(1).WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
 	err = DeleteTask(gormDB, 1)
