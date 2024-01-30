@@ -84,7 +84,8 @@ func TestDeleteTask(t *testing.T) {
 	mock.ExpectExec("DELETE FROM `tasks` WHERE").WithArgs(1).WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
-	DeleteTask(1)
+	err = DeleteTask(gormDB, 1)
+	assert.NoError(t, err)
 
 	assert.NoError(t, mock.ExpectationsWereMet())
 }
