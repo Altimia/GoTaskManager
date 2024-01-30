@@ -28,6 +28,11 @@ func AddTask(gormDB *gorm.DB, task Task) error {
 func ViewTask(gormDB *gorm.DB, id int) (Task, error) {
 	var task Task
 	if err := gormDB.First(&task, id).Error; err != nil {
+		zap.L().Error("Error finding task for deletion", zap.Int("id", id), zap.Error(err))
+		return err
+	}
+	if err := gormDB.Delete(&task).Error; err != nil {
+	if err := gormDB.First(&task, id).Error; err != nil {
 		zap.L().Error("Error viewing task", zap.Int("id", id), zap.Error(err))
 		return Task{}, err
 	}
@@ -35,9 +40,13 @@ func ViewTask(gormDB *gorm.DB, id int) (Task, error) {
 	return task, nil
 }
 
-func UpdateTask(id int, updatedTask Task) error {
 func UpdateTask(gormDB *gorm.DB, id int, updatedTask Task) error {
 	var task Task
+	if err := gormDB.First(&task, id).Error; err != nil {
+		zap.L().Error("Error finding task for deletion", zap.Int("id", id), zap.Error(err))
+		return err
+	}
+	if err := gormDB.Delete(&task).Error; err != nil {
 	if err := gormDB.First(&task, id).Error; err != nil {
 		zap.L().Error("Error finding task for update", zap.Int("id", id), zap.Error(err))
 		return err
@@ -60,15 +69,21 @@ func UpdateTask(gormDB *gorm.DB, id int, updatedTask Task) error {
 	return nil
 }
 
-func DeleteTask(id int) {
+func DeleteTask(gormDB *gorm.DB, id int) error {
 	var task Task
+	if err := gormDB.First(&task, id).Error; err != nil {
+		zap.L().Error("Error finding task for deletion", zap.Int("id", id), zap.Error(err))
+		return err
+	}
+	if err := gormDB.Delete(&task).Error; err != nil {
 	if err := db.First(&task, id).Error; err != nil {
 		zap.L().Error("Error finding task for deletion", zap.Int("id", id), zap.Error(err))
 		return
 	}
 	if err := db.Delete(&task).Error; err != nil {
 		zap.L().Error("Error deleting task", zap.Int("id", id), zap.Error(err))
-		return
+		return err
 	}
 	zap.L().Info("Task deleted successfully", zap.Int("id", id))
+	return nil
 }
