@@ -61,13 +61,9 @@ func UpdateTask(gormDB *gorm.DB, id int, updatedTask Task) error {
 
 func DeleteTask(gormDB *gorm.DB, id int) error {
 	var task Task
-	if err := gormDB.First(&task, id).Error; err != nil {
-		zap.L().Error("Error finding task for deletion", zap.Int("id", id), zap.Error(err))
-		return err
-	}
-	if err := gormDB.Delete(&task).Error; err != nil {
 	if err := db.First(&task, id).Error; err != nil {
 		zap.L().Error("Error finding task for deletion", zap.Int("id", id), zap.Error(err))
+		return err
 		return
 	}
 	if err := db.Delete(&task).Error; err != nil {
