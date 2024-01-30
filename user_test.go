@@ -20,11 +20,13 @@ func TestRegister(t *testing.T) {
 	mock.ExpectCommit()
 
 	// Use the mocked DB connection
-	gormDB, err := gorm.Open("sqlite3", "test.db")
+	gormDB, err := gorm.Open("sqlite3", db)
 	if err != nil {
 		t.Fatalf("Failed to open gorm db: %v", err)
 	}
 	defer func() { gormDB.Close() }()
+	// Set the global db variable to the mocked gormDB
+	db = gormDB
 
 	// Test the Register function
 	Register(User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
