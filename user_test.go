@@ -16,18 +16,20 @@ func TestRegister(t *testing.T) {
 
 	// Set up the mock expectations
 	mock.ExpectBegin()
-	mock.ExpectExec("INSERT INTO `users`").WithArgs("testuser", "testpass", "testprofile").WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec("INSERT INTO `users`").WithArgs(sqlmock.AnyArg(), "testuser", "testpass", "testprofile").WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
 	// Use the mocked DB connection
 	gormDB, err := gorm.Open("sqlite3", sqlDB)
+	assert.NoError(t, err)
 	if err != nil {
 		t.Fatalf("Failed to open gorm db: %v", err)
 	}
 	defer func() { gormDB.Close() }()
 
 	// Inject the mocked gormDB into the Register function
-	Register(gormDB, User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
+	err = Register(gormDB, User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
+	assert.NoError(t, err)
 
 	// Test the Register function
 	Register(gormDB, User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
