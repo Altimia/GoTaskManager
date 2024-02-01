@@ -22,9 +22,9 @@ func Register(gormDB *gorm.DB, user User) error {
 	return nil
 }
 
-func Login(username string, password string) bool {
+func Login(gormDB *gorm.DB, username string, password string) bool {
 	var user User
-	if err := db.Where("username = ? AND password = ?", username, password).First(&user).Error; err != nil {
+	if err := gormDB.Where("username = ? AND password = ?", username, password).First(&user).Error; err != nil {
 		zap.L().Error("Login failed for user", zap.String("username", username), zap.Error(err))
 		return false
 	}
