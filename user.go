@@ -13,12 +13,13 @@ type User struct {
 	Profile  string
 }
 
-func Register(gormDB *gorm.DB, user User) {
+func Register(gormDB *gorm.DB, user User) error {
 	if err := gormDB.Create(&user).Error; err != nil {
 		zap.L().Error("Error registering user", zap.Error(err))
-		return
+		return err
 	}
 	zap.L().Info("User registered successfully")
+	return nil
 }
 
 func Login(username string, password string) bool {

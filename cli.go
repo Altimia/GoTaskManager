@@ -138,18 +138,15 @@ var registerCmd = &cobra.Command{
 	Short: "Register a user",
 	Long:  `Register a new user.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// code for registering a user
 		if len(args) != 3 {
 			fmt.Println("Invalid number of arguments. Expected 3 arguments: username, password, profile.")
 			return
 		}
 		username, password, profile := args[0], args[1], args[2]
 		user := User{Username: username, Password: password, Profile: profile}
-		if err := Register(db, user); err != nil {
-			fmt.Printf("Failed to register user: %v\n", err)
-			return
-		}
+		Register(db, user)
 		fmt.Println("User registered successfully")
+	},
 	},
 }
 
