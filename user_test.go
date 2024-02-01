@@ -46,8 +46,9 @@ func TestLogin(t *testing.T) {
 
 	// Set up the mock expectations
 	expectedSQL := "SELECT \\* FROM \"users\" WHERE \\(username = \\? AND password = \\?\\)"
+	currentTime := time.Now()
 	rows := sqlmock.NewRows([]string{"id", "username", "password", "profile", "created_at", "updated_at", "deleted_at"}).
-		AddRow(1, "testuser", "testpass", "testprofile", sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg())
+		AddRow(1, "testuser", "testpass", "testprofile", currentTime, currentTime, nil)
 	mock.ExpectQuery(expectedSQL).WithArgs("testuser", "testpass").WillReturnRows(rows)
 
 	// Use the mocked DB connection
