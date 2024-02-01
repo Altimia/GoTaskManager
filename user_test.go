@@ -60,11 +60,11 @@ func TestLogin(t *testing.T) {
 	}
 	defer func() { gormDB.Close() }()
 
-	// Test the Login function
+	// Test the Login function with the correct arguments
 	result := Login(gormDB, "testuser", "testpass")
 
 	// Check the result
-	assert.True(t, result)
+	assert.True(t, result, "Login should return true for valid credentials")
 
 	// Ensure all expectations are met
 	assert.NoError(t, mock.ExpectationsWereMet())
