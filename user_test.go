@@ -50,7 +50,6 @@ func TestLogin(t *testing.T) {
 	mock.ExpectQuery("SELECT * FROM `users`").WithArgs("testuser", "testpass").WillReturnRows(rows)
 
 	// Use the mocked DB connection
-	gormDB, err := gorm.Open("sqlite3", db)
 	assert.NoError(t, err)
 	gormDB, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
