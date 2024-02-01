@@ -154,10 +154,19 @@ var loginCmd = &cobra.Command{
 	Short: "Login a user",
 	Long:  `Login a user.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// code for logging in a user
-		username := args[0]
-		password := args[1]
-		if Login(username, password) {
+		if len(args) != 2 {
+			fmt.Println("Invalid number of arguments. Expected 2 arguments: username, password.")
+			return
+		}
+		username, password := args[0], args[1]
+		gormDB, err := OpenDatabase()
+		if err != nil {
+			fmt.Printf("Failed to open database connection: %v\n", err)
+			return
+		}
+		defer CloseDB()
+
+		if Login(gormDB, username, password) {
 			fmt.Println("Logged in successfully")
 		} else {
 			fmt.Println("Failed to log in")
