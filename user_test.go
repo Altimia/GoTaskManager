@@ -16,7 +16,7 @@ func TestRegister(t *testing.T) {
 
 	// Set up the mock expectations
 	mock.ExpectBegin()
-	mock.ExpectExec("INSERT INTO `users`").WithArgs(sqlmock.AnyArg(), "testuser", "testpass", "testprofile").WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec("INSERT INTO \"users\" \\(\"created_at\",\"updated_at\",\"deleted_at\",\"username\",\"password\",\"profile\"\\) VALUES \\(\\?,\\?,\\?,\\?,\\?,\\?\\)").WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), "testuser", "testpass", "testprofile").WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
 	// Use the mocked DB connection
