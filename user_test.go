@@ -47,7 +47,7 @@ func TestLogin(t *testing.T) {
 	defer db.Close()
 
 	// Set up the mock expectations
-	expectedSQL := "SELECT \\* FROM \"users\" WHERE \\(username = \\? AND password = \\?\\)"
+	expectedSQL := "SELECT \\* FROM \"users\" WHERE \\(username = \\? AND password = \\?\\) AND \"users\".\"deleted_at\" IS NULL ORDER BY \"users\".\"id\" ASC LIMIT 1"
 	currentTime := time.Now()
 	rows := sqlmock.NewRows([]string{"id", "username", "password", "profile", "created_at", "updated_at"}).
 		AddRow(1, "testuser", "testpass", "testprofile", currentTime, currentTime)
