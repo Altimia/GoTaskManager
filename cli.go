@@ -147,7 +147,6 @@ var registerCmd = &cobra.Command{
 		Register(db, user)
 		fmt.Println("User registered successfully")
 	},
-	},
 }
 
 var loginCmd = &cobra.Command{
