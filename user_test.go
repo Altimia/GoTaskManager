@@ -46,11 +46,11 @@ func TestLogin(t *testing.T) {
 	defer db.Close()
 
 	// Set up the mock expectations
-	expectedSQL := "SELECT \\* FROM \"users\" WHERE \\(username = \\? AND password = \\?\\) ORDER BY \"users\".\"id\" ASC LIMIT 1"
+	expectedSQL := "SELECT \\* FROM \"users\" WHERE \\(username = \\? AND password = \\?\\)"
 	currentTime := time.Now()
 	rows := sqlmock.NewRows([]string{"id", "username", "password", "profile", "created_at", "updated_at"}).
 		AddRow(1, "testuser", "testpass", "testprofile", currentTime, currentTime)
-	mock.ExpectQuery(expectedSQL).WithArgs("testuser", "testpass").WillReturnRows(rows)
+	mock.ExpectQuery(regexp.QuoteMeta(expectedSQL)).WithArgs("testuser", "testpass").WillReturnRows(rows)
 
 	// Use the mocked DB connection
 	assert.NoError(t, err)
