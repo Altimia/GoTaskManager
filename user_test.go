@@ -49,7 +49,7 @@ func TestLogin(t *testing.T) {
 	// Set up the mock expectations for successful login
 	rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "username", "password", "profile"}).
 		AddRow(1, time.Now(), time.Now(), nil, "testuser", "testpass", "testprofile")
-	mock.ExpectQuery("SELECT \\* FROM \"users\" WHERE \\(username = \\? AND password = \\?\\) ORDER BY \"users\"\\.\"id\" ASC LIMIT 1").
+	mock.ExpectQuery("SELECT \\* FROM \"users\" WHERE \"users\"\\.\"deleted_at\" IS NULL AND \\(\\(username = \\? AND password = \\?\\)\\) ORDER BY \"users\"\\.\"id\" ASC LIMIT 1").
 		WithArgs("testuser", "testpass").
 		WillReturnRows(rows)
 
@@ -66,7 +66,7 @@ func TestLogin(t *testing.T) {
 	assert.True(t, success)
 
 	// Set up the mock expectations for failed login
-	mock.ExpectQuery("SELECT \\* FROM \"users\" WHERE \\(username = \\? AND password = \\?\\) ORDER BY \"users\"\\.\"id\" ASC LIMIT 1").
+	mock.ExpectQuery("SELECT \\* FROM \"users\" WHERE \"users\"\\.\"deleted_at\" IS NULL AND \\(\\(username = \\? AND password = \\?\\)\\) ORDER BY \"users\"\\.\"id\" ASC LIMIT 1").
 		WithArgs("testuser", "wrongpass").
 		WillReturnError(gorm.ErrRecordNotFound)
 
