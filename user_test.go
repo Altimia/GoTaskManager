@@ -30,7 +30,7 @@ func TestRegister(t *testing.T) {
 	Register(gormDB, User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
 
 	// Test the Register function
-	Register(User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
+	Register(gormDB, User{Username: "testuser", Password: "testpass", Profile: "testprofile"})
 
 	// Ensure all expectations are met
 	assert.NoError(t, mock.ExpectationsWereMet())
