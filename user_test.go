@@ -3,6 +3,8 @@ package main
 import (
 	"testing"
 
+	"time"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
